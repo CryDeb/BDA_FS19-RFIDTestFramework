@@ -1,5 +1,5 @@
 package util
 
 interface WriteableFile {
-    fun writeToFile(text:String)
+    fun writeToFile(text: String)
 }

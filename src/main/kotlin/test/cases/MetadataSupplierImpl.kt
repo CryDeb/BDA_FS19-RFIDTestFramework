@@ -1,6 +1,6 @@
 package test.cases
 
-class MetadataSupplierImpl: MetadataSupplier {
+class MetadataSupplierImpl : MetadataSupplier {
 
 
     override fun getId(): Int {

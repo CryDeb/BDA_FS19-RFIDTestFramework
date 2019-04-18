@@ -16,8 +16,9 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Build folder
+# Generated files
 build/
+out/
 
 # Package Files #
 *.jar

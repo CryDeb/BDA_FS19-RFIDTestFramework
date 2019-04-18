@@ -1,4 +1,1 @@
-
-class MultipleSequentialTestExecutor{
-
-}
+class MultipleSequentialTestExecutor

@@ -11,7 +11,6 @@ class TestData(
             this(id, name, preParameters, postParameters, TestType.valueOf(testType))
 
 
-
     override fun equals(other: Any?): Boolean {
         if (super.equals(other))
             return true
@@ -23,8 +22,8 @@ class TestData(
         return false
     }
 
-    private fun arePropertiesEqual(other: TestData): Boolean{
-        return  id == other.id
+    private fun arePropertiesEqual(other: TestData): Boolean {
+        return id == other.id
                 && name == other.name
                 && preParameters == other.preParameters
                 && postParameters == other.postParameters

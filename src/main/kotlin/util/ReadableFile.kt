@@ -1,5 +1,5 @@
 package util
 
-interface ReadableFile{
+interface ReadableFile {
     fun getText(): String
 }

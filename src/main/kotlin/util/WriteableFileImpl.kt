@@ -2,9 +2,9 @@ package util
 
 import java.io.File
 
-class WriteableFileImpl(val file: File): WriteableFile {
+class WriteableFileImpl(val file: File) : WriteableFile {
     init {
-        if(!file.exists()){
+        if (!file.exists()) {
             file.createNewFile()
         }
     }

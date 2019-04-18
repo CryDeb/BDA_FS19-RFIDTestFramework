@@ -1,5 +1,5 @@
 package feature.report
 
 interface ReportPersistor {
-    fun persistReport(report:Report)
+    fun persistReport(report: Report)
 }

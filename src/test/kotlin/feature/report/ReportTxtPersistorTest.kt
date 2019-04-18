@@ -2,7 +2,6 @@ package feature.report
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
 import test.cases.dataloader.TestData
@@ -12,7 +11,6 @@ import java.io.File
 
 internal class ReportTxtPersistorTest {
 
-    @Disabled
     @Test
     fun checkPersisting() {
         val file = WriteableFileStub()
@@ -22,7 +20,6 @@ internal class ReportTxtPersistorTest {
         assertEquals(report.toString(), file.textStoredToFile)
     }
 
-    @Disabled
     @Test
     fun IStoreToRealFile() {
         val file = WriteableFileImpl(File(System.getProperty("user.home") + "/test.txt"))

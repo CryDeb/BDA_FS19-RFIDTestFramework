@@ -1,3 +1,3 @@
 package gui
 
-class GuiLess: Gui
+class GuiLess : Gui
