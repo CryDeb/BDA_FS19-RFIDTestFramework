@@ -1,0 +1,21 @@
+sudo: false
+
+language: java
+
+jdk: openjdk11
+
+before_deploy:
+    - ./gradlew clean
+    - ./gradlew jar
+
+deploy:
+    provider: releases
+    api_key: $GIT_AUTH
+    file_glob: true
+    file: "build/libs/*"
+    skip_cleanup: true
+    prerelease: true
+    name: Build $(date +'%d.%m.%Y %R')
+    on:
+        branch: master
+	repo: HSLU-BaumannWicki/BDA_FS19-RFIDTestFramework
