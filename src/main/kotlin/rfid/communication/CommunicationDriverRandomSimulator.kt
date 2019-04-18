@@ -18,4 +18,8 @@ class CommunicationDriverRandomSimulator(private val random: Random) : Communica
     override fun isSingleTagReachable(id: TagInformation): Boolean {
         return random.nextBoolean()
     }
+
+    override fun switchToAntenna(antennaPosition: Int) {
+        // no implementation needed for simulation
+    }
 }
