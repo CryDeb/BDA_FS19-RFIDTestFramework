@@ -18,4 +18,4 @@ deploy:
     name: Build $(date +'%d.%m.%Y %R')
     on:
         branch: master
-	repo: HSLU-BaumannWicki/BDA_FS19-RFIDTestFramework
+        repo: HSLU-BaumannWicki/BDA_FS19-RFIDTestFramework
