@@ -1,3 +1,9 @@
+# Intellij folder
+*.idea
+
+# Lock files
+*.lock
+
 # Compiled class file
 *.class
 
@@ -10,6 +16,9 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# Build folder
+build/
+
 # Package Files #
 *.jar
 *.war
@@ -18,6 +27,12 @@
 *.zip
 *.tar.gz
 *.rar
+
+# Unexclude gradle jar
+!gradle/wrapper/gradle-wrapper.jar
+
+# Gradle temp files
+.gradle/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

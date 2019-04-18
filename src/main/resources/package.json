@@ -1,0 +1,11 @@
+{
+  "id": 1,
+  "name": "TestName",
+  "testType": "A",
+  "preParameters": [
+    "Please insert some params"
+  ],
+  "postParameters": [
+    "Please insert some post params"
+  ]
+}
