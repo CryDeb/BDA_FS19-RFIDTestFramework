@@ -1,5 +1,6 @@
 package test.cases.dataloader
 
 interface DataLoader {
-    fun loadTestData(): TestData
+    fun loadSingleTestData(): TestData
+    fun loadMultipleTestData(): ArrayList<TestData>
 }
