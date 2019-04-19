@@ -5,11 +5,9 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers
-import org.mockito.Mockito.*
-import java.io.*
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
 import java.util.*
-import java.util.regex.Pattern
 import kotlin.test.assertEquals
 
 internal class GuiLessTest {

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
-import java.io.InputStream
 import java.io.PrintStream
 
 class GuiLessTestIntegration {
@@ -25,7 +24,7 @@ class GuiLessTestIntegration {
         System.setOut(originalOut)
     }
 
-    private class ScannerStub(var returnValueForNext:String): ScannerAbstraction {
+    private class ScannerStub(var returnValueForNext: String) : ScannerAbstraction {
         override fun next(): String {
             return returnValueForNext
         }
