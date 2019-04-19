@@ -5,7 +5,7 @@ class GuiLess(private val commandLineReader: ScannerAbstraction) : Gui {
 
     override fun displayMultiple(messages: List<String>) {
         val messageIterator = messages.iterator()
-        messageIterator.forEach { message -> println(message) }
+        messageIterator.forEach(System.out::println)
     }
 
     override fun display(message: String) {
