@@ -1,9 +1,6 @@
 package gui
 
-import java.util.*
-import kotlin.collections.ArrayList
-
-    class GuiLess(private val commandLineReader: ScannerAbstraction) : Gui {
+class GuiLess(private val commandLineReader: ScannerAbstraction) : Gui {
     private val observers: ArrayList<GuiObserver> = ArrayList()
 
     override fun displayMultiple(messages: List<String>) {
