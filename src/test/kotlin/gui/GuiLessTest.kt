@@ -1,8 +1,11 @@
 package gui
 
+import org.hamcrest.CoreMatchers.containsString
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
 import java.io.*
 import java.util.*
@@ -14,8 +17,6 @@ internal class GuiLessTest {
     private val resultStream = ByteArrayOutputStream()
     private val outContent: PrintStream = PrintStream(resultStream)
     private val originalOut: PrintStream = System.out
-    private val originalIn: InputStream = System.`in`
-    private val scannerAbstractionImpl = ScannerStub("")
 
     @BeforeEach
     fun setUp() {
@@ -28,38 +29,37 @@ internal class GuiLessTest {
     }
 
     @Test
-    fun displayMultiple() {
-        val guiLess = GuiLess(scannerAbstractionImpl)
-        val messages = listOf("Element A", "Element B", "Element C")
-        val printOut = "Element A\\s*Element B\\s*Element C"
-        guiLess.displayMultiple(messages)
-        assert(Pattern.compile(printOut).matcher(resultStream.toString()).find())
+    fun testSubscription() {
+        // Arrange
+        val guiObserver = GuiObserverStub()
+        val question = "Option 1?"
+        val answer = "Yes"
+        val scannerStub = ScannerStub(answer)
+        val guiLess = GuiLess(scannerStub)
+
+        // Act
+        guiLess.subscribe(guiObserver)
+        guiLess.getUserInput(question)
+        guiLess.unsubscribe(guiObserver)
+        scannerStub.returnValueForNext = "No"
+        guiLess.getUserInput(question)
+
+        // Verify
+        assertEquals(answer, guiObserver.userMessages.last())
     }
 
     @Test
-    fun display() {
-        val guiLess = GuiLess(scannerAbstractionImpl)
-        val message = "This is a test"
-        guiLess.display(message)
-        assert(Pattern.compile(message).matcher(resultStream.toString()).find())
-    }
-
-    @Test
-    fun testSubscriptionAndFunctionality() {
+    fun testGetUserInput() {
         val guiObserver = GuiObserverStub()
         val question = "Option 1?"
         val answer = "Yes"
         val scannerStub = ScannerStub(answer)
         val guiLess = GuiLess(scannerStub)
         guiLess.subscribe(guiObserver)
+
         guiLess.getUserInput(question)
-        assert(Pattern.compile(question).matcher(resultStream.toString()).find())
+        assertThat(resultStream.toString(), containsString(question))
         assertEquals(answer,guiObserver.userMessages.last())
-        System.setIn(originalIn)
-        guiLess.unsubscribe(guiObserver)
-        scannerStub.returnValueForNext = "No"
-        guiLess.getUserInput(question)
-        assertEquals(answer, guiObserver.userMessages.last())
     }
 
     private class ScannerStub(var returnValueForNext:String): ScannerAbstraction {
