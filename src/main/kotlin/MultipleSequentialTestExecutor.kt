@@ -1,10 +1,17 @@
+import feature.report.Report
+import feature.report.ReportPersistor
 import gui.GuiLess
 import gui.GuiObserver
 import test.cases.dataloader.DataLoader
 import test.cases.dataloader.TestData
 
-class MultipleSequentialTestExecutor(private val guiLess: GuiLess, private val dataLoader: DataLoader) : GuiObserver {
+abstract class MultipleSequentialTestExecutor(
+    private val guiLess: GuiLess,
+    private val dataLoader: DataLoader,
+    private val reportPersistor: ReportPersistor
+) : GuiObserver {
     private var testDataList: ArrayList<TestData> = dataLoader.loadMultipleTestData()
+    private var lastReport: Report? = null
 
     private fun displayHeader() {
         val header = "" +
@@ -17,7 +24,7 @@ class MultipleSequentialTestExecutor(private val guiLess: GuiLess, private val d
         guiLess.display(header)
     }
 
-    fun start() {
+    public fun start() {
         while (true) {
             displayHeader()
             guiLess.display("---- Tests ----")
@@ -26,12 +33,12 @@ class MultipleSequentialTestExecutor(private val guiLess: GuiLess, private val d
         }
     }
 
-    fun quit() {
-        // TODO Implement report generation
+    private fun quit() {
+        if (lastReport != null) reportPersistor.persistReport(lastReport!!)
         System.exit(0)
     }
 
-    fun executeTest(testId: Int) {
+    private fun executeTest(testId: Int) {
         guiLess.display("Execute test $testId")
     }
 
