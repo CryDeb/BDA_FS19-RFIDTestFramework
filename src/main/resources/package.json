@@ -1,24 +1,158 @@
 [
   {
     "id": 1,
-    "name": "TestName",
-    "testType": "A",
+    "name": "Effektive Reichweite gerade",
+    "testType": "SingleTagMultipleReads",
     "preParameters": [
-      "Please insert some params"
+      "AmountOfReads",
+      "OrientationBetweenTagAndAntenna"
     ],
     "postParameters": [
-      "Please insert some post params"
+      "DistanceBetweenTagAndAntenna"
     ]
   },
   {
     "id": 2,
-    "name": "TestName",
-    "testType": "A",
+    "name": "Lesegeschwindigkeit Bulk Reading",
+    "testType": "MultipleTagsMultipleReads",
     "preParameters": [
-      "Please insert some params"
+      "AmountOfReads",
+      "DistanceBetweenTagsAndAntenna",
+      "OrientationBetweenTagAndAntenna"
     ],
     "postParameters": [
-      "Please insert some post params"
+      "AmountOfTags"
     ]
-  }
+  },
+    {
+    "id": 3,
+    "name": "Seitliche Reichweite",
+    "testType": "SingleTagMultipleReads",
+    "preParameters": [
+      "AmountOfReads",
+      "OrientationBetweenTagAndAntenna"
+    ],
+    "postParameters": [
+      "HorizontalDistanceBetweenTagAndAntenna",
+      "LateralDistanceBetweenTagAndAntenna"
+    ]
+  },
+    {
+    "id": 4,
+    "name": "Ausrichtung des Tags",
+    "testType": "SingleTagMultipleReads",
+    "preParameters": [
+      "AmountOfReads",
+      "AxisChanged",
+      "Distance"
+    ],
+    "postParameters": [
+      "DegreesOfMisalignment"
+    ]
+  },
+    {
+    "id": 5,
+    "name": "Abschirmung durch Gegenstände",
+    "testType": "SingleTagMultipleReads",
+    "preParameters": [
+      "AmountOfReads",
+      "OrientationBetweenTagAndAntenna",
+      "DistanceBetweenTagAndAntenna",
+      "MaterialOfInterferenceSource"
+    ],
+    "postParameters": [
+      "AmountOfInterferenceSources"
+    ]
+  },
+    {
+    "id": 6,
+    "name": "Interferenz bei mehreren Antennen",
+    "testType": "SingleTagMultipleReads",
+    "preParameters": [
+      "AmountOfReads",
+      "AmountOfAntennas",
+      "OrientationBetweenTagAndAntenna",
+      "DistanceBetweenTagAndAntennas"
+    ],
+    "postParameters": [
+      "DistanceBetweenAntennas",
+      "OrientationBetweenAntennas"
+    ]
+  },
+    {
+    "id": 7,
+    "name": "Auslesung bewegende Box",
+    "testType": "MultipleTagsSingleRead",
+    "preParameters": [
+      "AmountOfTags",
+      "OrientationBetweenTagsAndAntenna"
+    ],
+    "postParameters": [
+      "VelocityOfBox"
+    ]
+  },
+    {
+    "id": 8,
+    "name": "Störung durch WLAN",
+    "testType": "MultipleTagsSingleRead",
+    "preParameters": [
+      "DistanceBetweenTagsAndAntenna",
+      "OrientationBetweenTagsAndAntenna",
+      "MaterialOfInterferenceSource"
+    ],
+    "postParameters": [
+      "AmountOfTags"
+    ]
+  },
+    {
+    "id": 9,
+    "name": "Störung durch Smartphone",
+    "testType": "MultipleTagsSingleRead",
+    "preParameters": [
+      "DistanceBetweenTagsAndAntenna",
+      "OrientationBetweenTagsAndAntenna",
+      "MaterialOfInterferenceSource"
+    ],
+    "postParameters": [
+      "AmountOfTags"
+    ]
+  },
+    {
+    "id": 10,
+    "name": "törung durch Kreditkarte",
+    "testType": "MultipleTagsSingleRead",
+    "preParameters": [
+      "DistanceBetweenTagsAndAntenna",
+      "OrientationBetweenTagsAndAntenna",
+      "MaterialOfInterferenceSource"
+    ],
+    "postParameters": [
+      "AmountOfTags"
+    ]
+  },
+    {
+    "id": 11,
+    "name": "Störung durch Stromquellen",
+    "testType": "MultipleTagsSingleRead",
+    "preParameters": [
+      "DistanceBetweenTagsAndAntenna",
+      "OrientationBetweenTagsAndAntenna",
+      "MaterialOfInterferenceSource"
+    ],
+    "postParameters": [
+      "AmountOfTags"
+    ]
+  },
+    {
+    "id": 12,
+    "name": "Auslesen von gestapelten Tags",
+    "testType": "MultipleTagsSingleRead",
+    "preParameters": [
+      "OrientationBetweenTagsAndAntenna",
+      "DistanceBetweenTagsAndAntenna"
+    ],
+    "postParameters": [
+      "AmountOfTags"
+    ]
+  },
 ]
