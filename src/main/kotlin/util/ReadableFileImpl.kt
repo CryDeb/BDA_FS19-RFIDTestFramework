@@ -14,4 +14,3 @@ class ReadableFileImpl(private val file: File) : ReadableFile {
         return file.inputStream().bufferedReader().readText()
     }
 }
-
