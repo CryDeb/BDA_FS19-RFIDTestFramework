@@ -24,7 +24,7 @@ class MultipleSequentialTestExecutor(
         guiLess.display(header)
     }
 
-    public fun start() {
+    fun start() {
         while (true) {
             displayHeader()
             guiLess.display("---- Tests ----")
@@ -38,16 +38,17 @@ class MultipleSequentialTestExecutor(
         System.exit(0)
     }
 
-    private fun executeTest(testId: Int) {
-        guiLess.display("Execute test $testId")
+    private fun executeTest(testData: TestData) {
+        guiLess.display("Execute test ${testData.id}")
     }
 
     override fun handleUserInput(userMessage: String) {
         try {
             val testId: Int = userMessage.toInt()
-            testDataList.iterator().forEach { testData ->
-                if (testData.id.equals(testId)) this.executeTest(testId)
-            }
+            testDataList
+                .stream()
+                .filter { data -> data.id == testId }
+                .forEach(this::executeTest)
         } catch (error: NumberFormatException) {
             when (userMessage) {
                 "q" -> this.quit()
