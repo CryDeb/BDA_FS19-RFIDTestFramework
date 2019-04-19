@@ -5,7 +5,7 @@ import gui.GuiObserver
 import test.cases.dataloader.DataLoader
 import test.cases.dataloader.TestData
 
-abstract class MultipleSequentialTestExecutor(
+class MultipleSequentialTestExecutor(
     private val guiLess: GuiLess,
     private val dataLoader: DataLoader,
     private val reportPersistor: ReportPersistor
