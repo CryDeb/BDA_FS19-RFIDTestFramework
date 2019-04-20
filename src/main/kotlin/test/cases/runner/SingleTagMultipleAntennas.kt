@@ -1,6 +1,6 @@
 package test.cases.runner
 
-class TestCaseA : Runnable {
+class SingleTagMultipleAntennas : Runnable {
     override fun run() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

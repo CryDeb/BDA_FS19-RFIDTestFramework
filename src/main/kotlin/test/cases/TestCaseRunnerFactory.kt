@@ -1,16 +1,18 @@
 package test.cases
 
 import test.cases.dataloader.TestType
-import test.cases.runner.TestCaseA
-import test.cases.runner.TestCaseB
-import test.cases.runner.TestCaseC
+import test.cases.runner.MultipleTagsMultipleReads
+import test.cases.runner.MultipleTagsSingleRead
+import test.cases.runner.SingleTagMultipleAntennas
+import test.cases.runner.SingleTagMultipleReads
 
 class TestCaseRunnerFactory {
     fun getRunnerByType(testType: TestType): Runnable {
-        when (testType) {
-            TestType.A -> return TestCaseA()
-            TestType.B -> return TestCaseB()
-            TestType.C -> return TestCaseC()
+        return when (testType) {
+            TestType.SingleTagMultipleReads -> SingleTagMultipleReads()
+            TestType.SingleTagMultipleAntennas -> SingleTagMultipleAntennas()
+            TestType.MultipleTagsSingleRead -> MultipleTagsSingleRead()
+            TestType.MultipleTagsMultipleReads -> MultipleTagsMultipleReads()
         }
     }
 }
