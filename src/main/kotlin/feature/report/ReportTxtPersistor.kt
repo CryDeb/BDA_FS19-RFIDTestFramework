@@ -8,7 +8,7 @@ class ReportTxtPersistor(var file: WriteableFile) : ReportPersistor {
     override fun changeFilename(filename: String) {
         val filenameIsValid = FilenameValidator().isFilenameValid(filename)
         if (filenameIsValid) {
-            file.changeFile(File(filename))
+            file.changeFile(File("$filename.txt"))
         }
         else {
             println("Filename is invalid")

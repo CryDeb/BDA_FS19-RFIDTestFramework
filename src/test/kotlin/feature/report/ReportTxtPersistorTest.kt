@@ -22,7 +22,7 @@ internal class ReportTxtPersistorTest {
 
     @Test
     fun IStoreToRealFile() {
-        val file = WriteableFileImpl(File(System.getProperty("user.home") + "/test.txt"))
+        val file = WriteableFileImpl(File(System.getProperty("user.home") + "/test"))
         val testee = ReportTxtPersistor(file)
         testee.persistReport(Report(getTestData("a lot of values")))
         assertTrue(file.file.exists())
@@ -32,9 +32,9 @@ internal class ReportTxtPersistorTest {
     fun changeFilename() {
         val file = WriteableFileStub()
         val testee = ReportTxtPersistor(file)
-        val newfilename = "testfile.txt"
+        val newfilename = "testfile"
         testee.changeFilename(newfilename)
-        assertEquals(newfilename, file.filename)
+        assertEquals("$newfilename.txt", file.filename)
     }
 
     private fun getTestData(toStringValue: String): TestData {
