@@ -28,6 +28,15 @@ internal class ReportTxtPersistorTest {
         assertTrue(file.file.exists())
     }
 
+    @Test
+    fun changeFilename() {
+        val file = WriteableFileStub()
+        val testee = ReportTxtPersistor(file)
+        val newfilename = "testfile.txt"
+        testee.changeFilename(newfilename)
+        assertEquals(newfilename, file.filename)
+    }
+
     private fun getTestData(toStringValue: String): TestData {
         val testData = mock(TestData::class.java)
         org.mockito.Mockito.`when`(testData.toString()).thenReturn(toStringValue)
