@@ -2,15 +2,19 @@ import feature.report.Report
 import feature.report.ReportPersistor
 import gui.GuiLess
 import gui.GuiObserver
+import rfid.communication.TagInformation
+import test.cases.TestCaseRunnerFactory
 import test.cases.dataloader.DataLoader
 import test.cases.dataloader.TestData
+import test.cases.dataloader.TestType
+import test.cases.runner.TestRunner
 import java.time.LocalDateTime
-import kotlin.collections.ArrayList
 
 class MultipleSequentialTestExecutor(
     private val guiLess: GuiLess,
-    private val dataLoader: DataLoader,
-    private val reportPersistor: ReportPersistor
+    dataLoader: DataLoader,
+    private val reportPersistor: ReportPersistor,
+    private val testCaseRunnerFactory: TestCaseRunnerFactory
 ) : GuiObserver {
     private var testDataList: ArrayList<TestData> = dataLoader.loadMultipleTestData()
     private var lastReport: Report? = null
@@ -23,6 +27,8 @@ class MultipleSequentialTestExecutor(
     private var filename = "Report"
     private var run = 1
     private var lastUserInputForParam = ""
+    private var tagIdRequested = false
+    private var tagId = 1
 
     private fun displayHeader() {
         val header = "" +
@@ -78,6 +84,8 @@ class MultipleSequentialTestExecutor(
         var testHeader: String
         val preParameterListOfTestRun: MutableList<String> = mutableListOf()
         val postParameterListOfTestRun: MutableList<String> = mutableListOf()
+        val testRunner: TestRunner = testCaseRunnerFactory.getRunnerByType(testData.testType)
+
         while (testRunning) {
             testHeader = "\n" +
                     "-------------------------------------------------------------\n" +
@@ -85,16 +93,39 @@ class MultipleSequentialTestExecutor(
                     "${testData.testType} Run Nr. $run\n" +
                     "-------------------------------------------------------------\n"
             guiLess.display(testHeader)
+
             if (changeParam) {
                 preParameterListOfTestRun.clear()
+
                 for (preParameter in testData.preParameters.iterator()) {
                     guiLess.getUserInput(preParameter)
                     preParameterListOfTestRun.add(lastUserInputForParam)
                 }
+
+                if (testData.testType == TestType.SingleTagMultipleAntennas ||
+                    testData.testType == TestType.SingleTagMultipleReads
+                ) {
+                    val tagInformation = requestTagId()
+                    testRunner.singleTag = tagInformation
+                }
+
+                if (testData.preParameters.contains("AmountOfReads")) {
+                    try {
+                        val amountOfReads =
+                            preParameterListOfTestRun[testData.preParameters.indexOf("AmountOfReads")].toInt()
+                        testRunner.amountOfReads = amountOfReads
+                    } catch (exception: NumberFormatException){
+                        guiLess.display("AmountOfReads should be an Integer, defaulting to 10")
+                    }
+                }
+
                 changeParam = false
             }
-            // TODO run test
-            // TODO show results
+
+            testRunner.run()
+            val testResults = testRunner.testResults
+
+            guiLess.display("\nResults:\n$testResults")
 
             postParameterListOfTestRun.clear()
             changeParam = true
@@ -104,7 +135,7 @@ class MultipleSequentialTestExecutor(
             }
             changeParam = false
 
-            lastReport = generateReport(testData, preParameterListOfTestRun, postParameterListOfTestRun)
+            lastReport = generateReport(testData, preParameterListOfTestRun, postParameterListOfTestRun, testResults)
 
             guiLess.getUserInput(
                 "(s)ave report\n" +
@@ -117,11 +148,11 @@ class MultipleSequentialTestExecutor(
 
             if (userHasSaved) {
                 guiLess.getUserInput(
-                        "(c)hange Pretest parameters\n" +
-                        "(r)erun with current config\n" +
-                        "(b)ack\n" +
-                        "(q)uit\n" +
-                        "?"
+                    "(c)hange Pretest parameters\n" +
+                            "(r)erun with current config\n" +
+                            "(b)ack\n" +
+                            "(q)uit\n" +
+                            "?"
                 )
             }
         }
@@ -130,11 +161,13 @@ class MultipleSequentialTestExecutor(
     private fun generateReport(
         testData: TestData,
         preParameterList: List<String>,
-        postParameterList: List<String>
+        postParameterList: List<String>,
+        testResults: String
     ): Report {
         val report = Report(testData)
         report.preTestParameterInput = preParameterList
         report.postTestParameterInput = postParameterList
+        report.testResults = testResults
         return report
     }
 
@@ -142,7 +175,8 @@ class MultipleSequentialTestExecutor(
         if (lastReport != null && lastTest != null) {
             saving = true
             val dateTime = LocalDateTime.now()
-            val fileNameDateTime = "${dateTime.year}.${dateTime.month}.${dateTime.dayOfMonth}-${dateTime.hour}.${dateTime.minute}.${dateTime.second}"
+            val fileNameDateTime =
+                "${dateTime.year}.${dateTime.monthValue}.${dateTime.dayOfMonth}-${dateTime.hour}.${dateTime.minute}.${dateTime.second}"
             filename = "TestReport-${lastTest!!.id}-$fileNameDateTime"
             guiLess.display("Save as $filename")
             guiLess.getUserInput("(y)es or write your own")
@@ -158,14 +192,32 @@ class MultipleSequentialTestExecutor(
         userHasSaved = true
     }
 
+    private fun requestTagId(): TagInformation {
+        tagIdRequested = true
+        // Declaration and assignment CAN'T be joined, as getUserInput invoked later changes tagId
+        var tagInformation: TagInformation
+        while (tagIdRequested) {
+            guiLess.getUserInput("Tag ID")
+        }
+        tagInformation = TagInformation(tagId)
+        return tagInformation
+    }
+
     override fun handleUserInput(userMessage: String) {
         try {
-            val testId: Int = userMessage.toInt()
-            if (!testRunning) testDataList.filter { data -> data.id == testId }.forEach { data ->
+            val userInputAsInt: Int = userMessage.toInt()
+            if (!testRunning) testDataList.filter { data -> data.id == userInputAsInt }.forEach { data ->
                 run = 1; this.executeTest(data)
             }
-        } catch (error: NumberFormatException) {
-            if (!saving && !changeParam) {
+            if (tagIdRequested) {
+                tagId = userInputAsInt
+                tagIdRequested = false
+            }
+            if (changeParam) {
+                lastUserInputForParam = userMessage
+            }
+        } catch (exception: NumberFormatException) {
+            if (!saving && !changeParam && !tagIdRequested) {
                 when (userMessage) {
                     "q" -> this.quit()
                     "b" -> if (testRunning) testRunning = false
@@ -184,6 +236,8 @@ class MultipleSequentialTestExecutor(
                 }
             } else if (changeParam) {
                 lastUserInputForParam = userMessage
+            } else if (tagIdRequested) {
+                guiLess.display("Tag ID should be an integer")
             }
         }
     }
