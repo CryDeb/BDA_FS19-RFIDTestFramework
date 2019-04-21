@@ -1,7 +1,12 @@
 package test.cases.runner
 
-class SingleTagMultipleReads : Runnable {
+import rfid.communication.CommunicationDriver
+
+class SingleTagMultipleReads(communicationDriver: CommunicationDriver) : TestRunner(communicationDriver) {
     override fun run() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        testResults = ""
+        for (i in 1..amountOfReads) {
+            testResults += "${communicationDriver.isSingleTagReachable(singleTag).toString().capitalize()}\n"
+        }
     }
 }

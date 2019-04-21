@@ -1,18 +1,16 @@
 package test.cases
 
+import rfid.communication.CommunicationDriver
 import test.cases.dataloader.TestType
-import test.cases.runner.MultipleTagsMultipleReads
-import test.cases.runner.MultipleTagsSingleRead
-import test.cases.runner.SingleTagMultipleAntennas
-import test.cases.runner.SingleTagMultipleReads
+import test.cases.runner.*
 
-class TestCaseRunnerFactory {
-    fun getRunnerByType(testType: TestType): Runnable {
+class TestCaseRunnerFactory(val communicationDriver: CommunicationDriver) {
+    fun getRunnerByType(testType: TestType): TestRunner {
         return when (testType) {
-            TestType.SingleTagMultipleReads -> SingleTagMultipleReads()
-            TestType.SingleTagMultipleAntennas -> SingleTagMultipleAntennas()
-            TestType.MultipleTagsSingleRead -> MultipleTagsSingleRead()
-            TestType.MultipleTagsMultipleReads -> MultipleTagsMultipleReads()
+            TestType.SingleTagMultipleReads -> SingleTagMultipleReads(communicationDriver)
+            TestType.SingleTagMultipleAntennas -> SingleTagMultipleAntennas(communicationDriver)
+            TestType.MultipleTagsSingleRead -> MultipleTagsSingleRead(communicationDriver)
+            TestType.MultipleTagsMultipleReads -> MultipleTagsMultipleReads(communicationDriver)
         }
     }
 }
