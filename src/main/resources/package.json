@@ -67,7 +67,7 @@
     {
     "id": 6,
     "name": "Interferenz bei mehreren Antennen",
-    "testType": "SingleTagMultipleReads",
+    "testType": "SingleTagMultipleAntennas",
     "preParameters": [
       "AmountOfReads",
       "AmountOfAntennas",
