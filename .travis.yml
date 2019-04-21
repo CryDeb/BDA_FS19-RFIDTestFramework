@@ -6,6 +6,7 @@ jdk: openjdk12
 
 before_deploy:
     - ./gradlew clean
+    - ./gradlew test
     - ./gradlew jar
 
 deploy:

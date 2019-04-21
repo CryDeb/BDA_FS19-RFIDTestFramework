@@ -3,10 +3,13 @@ package util
 import java.io.File
 import java.io.FileNotFoundException
 
-class ReadableFileImpl(private val file: File) : ReadableFile {
-    constructor(filePath: String) : this(File(filePath))
+class ReadableResourceFile(resourceName: String) : ReadableFile {
+    private var file: File
 
     init {
+        val path: String = ReadableResourceFile::class.java.getResource("../$resourceName").path
+        System.out.println(path)
+        file = File(path)
         if (!file.exists() && !file.canRead()) throw FileNotFoundException()
     }
 
