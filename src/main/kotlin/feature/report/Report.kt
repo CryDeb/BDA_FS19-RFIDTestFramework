@@ -2,12 +2,15 @@ package feature.report
 
 import test.cases.dataloader.TestData
 
-class Report(val testData: TestData) {
+class Report(private val testData: TestData) {
     var preTestParameterInput: List<String> = mutableListOf()
     var postTestParameterInput: List<String> = mutableListOf()
+    var testResults: String = ""
 
     override fun toString(): String {
-        return "%s  PreParameterInput: %s  PostParameterInput: %s"
-            .format(testData.toString(), preTestParameterInput.toString(), postTestParameterInput.toString())
+        return "$testData\n" +
+                "PreParameterInput: $preTestParameterInput\n" +
+                "PostParameterInput: $postTestParameterInput\n" +
+                "TestResults: $testResults"
     }
 }
