@@ -11,6 +11,6 @@ class Report(private val testData: TestData) {
         return "$testData\n" +
                 "PreParameterInput: $preTestParameterInput\n" +
                 "PostParameterInput: $postTestParameterInput\n" +
-                "TestResults: $testResults"
+                "TestResults:\n$testResults"
     }
 }

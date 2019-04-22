@@ -2,7 +2,7 @@ package util
 
 import java.io.File
 
-class WriteableFileImpl(val file: File) : WriteableFile {
+class WriteableFileImpl(var file: File) : WriteableFile {
     init {
         changeFile(file)
     }
@@ -11,6 +11,7 @@ class WriteableFileImpl(val file: File) : WriteableFile {
         if (!file.exists()) {
             file.createNewFile()
         }
+        this.file = file
     }
 
     override fun writeToFile(text: String) {
