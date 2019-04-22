@@ -1,6 +1,9 @@
 package util
 
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledOnOs
+import org.junit.jupiter.api.condition.OS
 import kotlin.test.assertFalse
 
 class FilenameValidatorTest {
@@ -12,6 +15,7 @@ class FilenameValidatorTest {
     }
 
     @Test
+    @DisabledOnOs(OS.LINUX)
     fun IInvalidFilename() {
         val invalidFilename = "\\/:*?<>|.txt"
         val testee = FilenameValidator()
