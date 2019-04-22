@@ -1,7 +1,7 @@
 import feature.report.ReportTxtPersistor
 import gui.GuiLess
 import gui.ScannerAbstractionImpl
-import rfid.communication.CommunicationDriverRandomSimulator
+import rfid.communication.HyientechDeviceCommunicationDriver
 import test.cases.TestCaseRunnerFactory
 import test.cases.dataloader.JsonDataLoader
 import util.ReadableResourceFile
@@ -17,7 +17,8 @@ fun main() {
     val txtFile = File("./Report.txt")
     val reportPersistor = ReportTxtPersistor(WriteableFileImpl(txtFile))
     val random = Random(1337)
-    val communicationDriver = CommunicationDriverRandomSimulator(random)
+    val communicationDriver = HyientechDeviceCommunicationDriver("Basic")
+    communicationDriver.initialize()
     val testCaseRunnerFactory = TestCaseRunnerFactory(communicationDriver)
     val multipleSequentialTestExecutor = MultipleSequentialTestExecutor(guiLess, dataLoader, reportPersistor, testCaseRunnerFactory)
 

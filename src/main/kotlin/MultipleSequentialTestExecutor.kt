@@ -2,13 +2,15 @@ import feature.report.Report
 import feature.report.ReportPersistor
 import gui.GuiLess
 import gui.GuiObserver
-import rfid.communication.TagInformation
+import rfid.communicationid.TagInformation
 import test.cases.TestCaseRunnerFactory
 import test.cases.dataloader.DataLoader
 import test.cases.dataloader.TestData
 import test.cases.dataloader.TestType
 import test.cases.runner.TestRunner
+import test.cases.runner.TestRunnerKeys
 import java.time.LocalDateTime
+import kotlin.collections.Map as Map1
 
 class MultipleSequentialTestExecutor(
     private val guiLess: GuiLess,
@@ -28,7 +30,7 @@ class MultipleSequentialTestExecutor(
     private var run = 1
     private var lastUserInputForParam = ""
     private var tagIdRequested = false
-    private var tagId = 1
+    private var tagId: List<Byte> = ArrayList<Byte>()
 
     private fun displayHeader() {
         val header = "" +
@@ -86,6 +88,7 @@ class MultipleSequentialTestExecutor(
         val preParameterListOfTestRun: MutableList<String> = mutableListOf()
         val postParameterListOfTestRun: MutableList<String> = mutableListOf()
         val testRunner: TestRunner = testCaseRunnerFactory.getRunnerByType(testData.testType)
+        val testParameters = HashMap<TestRunnerKeys, String>()
 
         while (testRunning) {
             testHeader = "\n" +
@@ -107,7 +110,7 @@ class MultipleSequentialTestExecutor(
                     testData.testType == TestType.SingleTagMultipleReads
                 ) {
                     val tagInformation = requestTagId()
-                    testRunner.singleTag = tagInformation
+                    testParameters.set(TestRunnerKeys.TAG_ID_AS_HEX, tagInformation.toString())
                 }
 
                 if (testData.preParameters.contains("Anzahl Leseversuche")) {
@@ -122,7 +125,8 @@ class MultipleSequentialTestExecutor(
                 changeParam = false
             }
 
-            testRunner.run()
+            testRunner.run(testParameters)
+            testParameters.clear()
             val testResults = testRunner.testResults
 
             guiLess.display("\nResults:\n$testResults")
@@ -209,15 +213,15 @@ class MultipleSequentialTestExecutor(
             if (!testRunning) testDataList.filter { data -> data.id == userInputAsInt }.forEach { data ->
                 run = 1; this.executeTest(data)
             }
-            if (tagIdRequested) {
-                tagId = userInputAsInt
-                tagIdRequested = false
-            }
             if (changeParam) {
                 lastUserInputForParam = userMessage
             }
         } catch (exception: NumberFormatException) {
-            if (!saving && !changeParam && !tagIdRequested) {
+            if (tagIdRequested && userMessage.length > 1) {
+                System.out.println(userMessage.length)
+                tagId = TagInformation.getByteListForHexString(userMessage)
+                tagIdRequested = false
+            } else if (!saving && !changeParam && !tagIdRequested) {
                 when (userMessage) {
                     "q" -> this.quit()
                     "b" -> if (testRunning) testRunning = false
@@ -236,8 +240,6 @@ class MultipleSequentialTestExecutor(
                 }
             } else if (changeParam) {
                 lastUserInputForParam = userMessage
-            } else if (tagIdRequested) {
-                guiLess.display("Tag ID should be an integer")
             }
         }
     }
