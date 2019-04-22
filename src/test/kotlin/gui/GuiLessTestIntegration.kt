@@ -35,11 +35,10 @@ class GuiLessTestIntegration {
         val guiLess = GuiLess(scannerAbstractionImpl)
         val messages = listOf("Element A", "Element B", "Element C")
         guiLess.displayMultiple(messages)
-        messages.iterator().forEach { message ->
-            MatcherAssert.assertThat(
-                resultStream.toString(),
-                CoreMatchers.containsString(message)
-            )
+        messages.forEach { message ->
+            val result = resultStream.toString()
+            val containsMessage = CoreMatchers.containsString(message)
+            MatcherAssert.assertThat(result, containsMessage)
         }
     }
 
@@ -48,7 +47,9 @@ class GuiLessTestIntegration {
         val guiLess = GuiLess(scannerAbstractionImpl)
         val message = "This is a test"
         guiLess.display(message)
-        MatcherAssert.assertThat(resultStream.toString(), CoreMatchers.containsString(message))
+        val result = resultStream.toString()
+        val containsMessage = CoreMatchers.containsString(message)
+        MatcherAssert.assertThat(result, containsMessage)
     }
 
 }
