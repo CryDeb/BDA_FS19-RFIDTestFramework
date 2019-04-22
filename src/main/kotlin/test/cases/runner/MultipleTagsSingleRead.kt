@@ -9,10 +9,14 @@ class MultipleTagsSingleRead(communicationDriver: CommunicationDriver) : TestRun
         testResults = ""
         val tagsInVicinity = mutableListOf<TagInformation>()
         val timeForRead = measureTimeMillis { tagsInVicinity.addAll(communicationDriver.getAllRfids(10)) }
-        // TODO what happens when timeout is reached? Has to be handled
-        tagsInVicinity.forEach { tagInformation ->
-            testResults += "$tagInformation\n"
+        if (tagsInVicinity.isEmpty()){
+            testResults += "Could not find any RFIDs\n"
         }
-        testResults += "Seconds elapsed for read: ${timeForRead / 1000}"
+        else {
+            tagsInVicinity.forEach { tagInformation ->
+                testResults += "$tagInformation\n"
+            }
+        }
+        testResults += "Seconds elapsed for read: ${timeForRead/1000}\n"
     }
 }
