@@ -109,16 +109,15 @@ class MultipleSequentialTestExecutor(
                     testRunner.singleTag = tagInformation
                 }
 
-                if (testData.preParameters.contains("AmountOfReads")) {
+                if (testData.preParameters.contains("Anzahl Leseversuche")) {
                     try {
                         val amountOfReads =
-                            preParameterListOfTestRun[testData.preParameters.indexOf("AmountOfReads")].toInt()
+                            preParameterListOfTestRun[testData.preParameters.indexOf("Anzahl Leseversuche")].toInt()
                         testRunner.amountOfReads = amountOfReads
                     } catch (exception: NumberFormatException){
-                        guiLess.display("AmountOfReads should be an Integer, defaulting to 10")
+                        guiLess.display("Anzahl Leseversuche sollte eine Ganzzahl sein, defaulting zu 10")
                     }
                 }
-
                 changeParam = false
             }
 
