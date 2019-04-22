@@ -81,6 +81,7 @@ class MultipleSequentialTestExecutor(
         testRunning = true
         lastTest = testData
         userHasSaved = false
+        changeParam = true
         var testHeader: String
         val preParameterListOfTestRun: MutableList<String> = mutableListOf()
         val postParameterListOfTestRun: MutableList<String> = mutableListOf()
