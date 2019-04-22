@@ -64,7 +64,7 @@ class MultipleSequentialTestExecutor(
             guiLess.display("---- Tests ----")
             testDataList.iterator().forEach { testData -> guiLess.display("${testData.id} - ${testData.name}") }
             guiLess.display("")
-            guiLess.getUserInput(
+            guiLess.askUserForInput(
                 "Choose test (nr)\n" +
                         "(q)uit\n" +
                         "?"
@@ -98,7 +98,7 @@ class MultipleSequentialTestExecutor(
                 preParameterListOfTestRun.clear()
 
                 for (preParameter in testData.preParameters.iterator()) {
-                    guiLess.getUserInput(preParameter)
+                    guiLess.askUserForInput(preParameter)
                     preParameterListOfTestRun.add(lastUserInputForParam)
                 }
 
@@ -130,14 +130,14 @@ class MultipleSequentialTestExecutor(
             postParameterListOfTestRun.clear()
             changeParam = true
             for (postParameter in testData.postParameters.iterator()) {
-                guiLess.getUserInput(postParameter)
+                guiLess.askUserForInput(postParameter)
                 postParameterListOfTestRun.add(lastUserInputForParam)
             }
             changeParam = false
 
             lastReport = generateReport(testData, preParameterListOfTestRun, postParameterListOfTestRun, testResults)
 
-            guiLess.getUserInput(
+            guiLess.askUserForInput(
                 "(s)ave report\n" +
                         "(c)hange Pretest parameters\n" +
                         "(r)erun with current config\n" +
@@ -147,7 +147,7 @@ class MultipleSequentialTestExecutor(
             )
 
             if (userHasSaved) {
-                guiLess.getUserInput(
+                guiLess.askUserForInput(
                     "(c)hange Pretest parameters\n" +
                             "(r)erun with current config\n" +
                             "(b)ack\n" +
@@ -179,7 +179,7 @@ class MultipleSequentialTestExecutor(
                 "${dateTime.year}.${dateTime.monthValue}.${dateTime.dayOfMonth}-${dateTime.hour}.${dateTime.minute}.${dateTime.second}"
             filename = "TestReport-${lastTest!!.id}-$fileNameDateTime"
             guiLess.display("Save as $filename")
-            guiLess.getUserInput("(y)es or write your own")
+            guiLess.askUserForInput("(y)es or write your own")
         } else {
             guiLess.display("\nThere is no report to save!\n")
         }
@@ -194,10 +194,10 @@ class MultipleSequentialTestExecutor(
 
     private fun requestTagId(): TagInformation {
         tagIdRequested = true
-        // Declaration and assignment CAN'T be joined, as getUserInput invoked later changes tagId
+        // Declaration and assignment CAN'T be joined, as askUserForInput invoked later changes tagId
         var tagInformation: TagInformation
         while (tagIdRequested) {
-            guiLess.getUserInput("Tag ID")
+            guiLess.askUserForInput("Tag ID")
         }
         tagInformation = TagInformation(tagId)
         return tagInformation
