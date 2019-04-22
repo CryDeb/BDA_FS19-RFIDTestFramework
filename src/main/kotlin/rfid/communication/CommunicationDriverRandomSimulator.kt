@@ -25,7 +25,7 @@ class CommunicationDriverRandomSimulator(private val random: Random) : Communica
         return random.nextBoolean()
     }
 
-    override fun switchToAntenna(antennaPosition: Int) {
+    override fun switchToAntenna(antennaPosition: AntennaPositions) {
         // no implementation needed for simulation
     }
 }

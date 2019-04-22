@@ -59,25 +59,20 @@ class HyientechDeviceCommunicationDriver(dllFile: String) : CommunicationDriver 
         val uid = ByteByReference()
         uid.pointer = Memory(10.toLong())
         for (i in 0..tagInformation.uid.size - 1) {
-            uid.pointer.setByte(i.toLong(), tagInformation.uid[7 - i])
+            uid.pointer.setByte(i.toLong(), tagInformation.uid.reversed()[i])
         }
-        val errorCode = ByteByReference()
         val uidMemory = ByteByReference()
         uidMemory.pointer = Memory(2)
-        uid.pointer.setByte(0, 0)
-        uid.pointer.setByte(1, 0)
-        val error = ByteByReference(0)
-        System.out.println(
-            hyientechDriver.GetSystemInformation(
-                deviceAddressPointer, ByteByReference(1), uid, ByteByReference(), uid, ByteByReference(0),
-                ByteByReference(0), uidMemory, ByteByReference(0), ByteByReference(0), frmHandlePointer.value
-            )
-        )
-        return !(isError(hyientechDriver.Select(deviceAddressPointer, uid, errorCode, frmHandlePointer.value)))
+        uidMemory.pointer.setByte(0, 0)
+        uidMemory.pointer.setByte(1, 0)
+        return hyientechDriver.GetSystemInformation(
+            deviceAddressPointer, ByteByReference(0), uid, ByteByReference(), uid, ByteByReference(0),
+            ByteByReference(0), uidMemory, ByteByReference(0), ByteByReference(0), frmHandlePointer.value
+        ) == 0
     }
 
-    override fun switchToAntenna(antennaPosition: Int) {
-        val antennaStatus = ByteByReference((1 shl antennaPosition).toByte())
+    override fun switchToAntenna(antennaPosition: AntennaPositions) {
+        val antennaStatus = ByteByReference((antennaPosition.antennaPosition).toByte())
         hyientechDriver.SetActiveANT(deviceAddressPointer, antennaStatus, frmHandlePointer.value)
     }
 

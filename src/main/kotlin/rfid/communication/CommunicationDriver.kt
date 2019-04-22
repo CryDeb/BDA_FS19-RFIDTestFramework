@@ -6,5 +6,5 @@ interface CommunicationDriver {
     fun getAllRfids(): List<TagInformation>
     fun getAllRfids(timeout: Int): List<TagInformation>
     fun isSingleTagReachable(uid: TagInformation): Boolean
-    fun switchToAntenna(antennaPosition: Int)
+    fun switchToAntenna(antennaPosition: AntennaPositions)
 }
