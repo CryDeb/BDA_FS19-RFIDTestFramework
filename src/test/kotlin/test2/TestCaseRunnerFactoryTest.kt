@@ -4,24 +4,27 @@ package test2
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.Test
+import rfid.communication.CommunicationDriverRandomSimulator
 import test.cases.TestCaseRunnerFactory
 import test.cases.dataloader.TestType
-import test.cases.runner.TestCaseB
-import test.cases.runner.TestCaseC
+import test.cases.runner.MultipleTagsSingleRead
+import test.cases.runner.SingleTagMultipleAntennas
+import kotlin.random.Random
 
 internal class TestCaseRunnerFactoryTest {
+    val communicationDriver = CommunicationDriverRandomSimulator(Random(1337))
 
     @Test
-    fun getRunnerByTypeB() {
-        val testee = TestCaseRunnerFactory()
-        val runnable: Runnable = testee.getRunnerByType(TestType.B)
-        assertThat(runnable, CoreMatchers.instanceOf(TestCaseB::class.java))
+    fun getRunnerByTypeSingleTagMultipleAntennas() {
+        val testee = TestCaseRunnerFactory(communicationDriver)
+        val runnable: Runnable = testee.getRunnerByType(TestType.SingleTagMultipleAntennas)
+        assertThat(runnable, CoreMatchers.instanceOf(SingleTagMultipleAntennas::class.java))
     }
 
     @Test
-    fun getRunnerByTypeC() {
-        val testee = TestCaseRunnerFactory()
-        val runnable: Runnable = testee.getRunnerByType(TestType.C)
-        assertThat(runnable, CoreMatchers.instanceOf(TestCaseC::class.java))
+    fun getRunnerByTypeMultipleTagsSingleRead() {
+        val testee = TestCaseRunnerFactory(communicationDriver)
+        val runnable: Runnable = testee.getRunnerByType(TestType.MultipleTagsSingleRead)
+        assertThat(runnable, CoreMatchers.instanceOf(MultipleTagsSingleRead::class.java))
     }
 }

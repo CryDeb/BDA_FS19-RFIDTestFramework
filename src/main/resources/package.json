@@ -1,24 +1,158 @@
 [
   {
     "id": 1,
-    "name": "TestName",
-    "testType": "A",
+    "name": "Effektive Reichweite gerade",
+    "testType": "SingleTagMultipleReads",
     "preParameters": [
-      "Please insert some params"
+      "Anzahl Leseversuche",
+      "Orientierung zwischen Tag und Antenne"
     ],
     "postParameters": [
-      "Please insert some post params"
+      "Distanz zwischen Tag und Antenne"
     ]
   },
   {
     "id": 2,
-    "name": "TestName",
-    "testType": "A",
+    "name": "Lesegeschwindigkeit Bulk Reading",
+    "testType": "MultipleTagsMultipleReads",
     "preParameters": [
-      "Please insert some params"
+      "Anzahl Leseversuche",
+      "Distanz zwischen Tags und Antenne",
+      "Orientierung zwischen Tag und Antenne"
     ],
     "postParameters": [
-      "Please insert some post params"
+      "Anzahl Tags"
+    ]
+  },
+    {
+    "id": 3,
+    "name": "Seitliche Reichweite",
+    "testType": "SingleTagMultipleReads",
+    "preParameters": [
+      "Anzahl Leseversuche",
+      "Orientierung zwischen Tag und Antenne"
+    ],
+    "postParameters": [
+      "Horizontale Distanz zwischen Tag und Antenne",
+      "Laterale Distanz zwischen Tag und Antenne"
+    ]
+  },
+    {
+    "id": 4,
+    "name": "Ausrichtung des Tags",
+    "testType": "SingleTagMultipleReads",
+    "preParameters": [
+      "Anzahl Leseversuche",
+      "Geänderte Achse",
+      "Distanz"
+    ],
+    "postParameters": [
+      "Grad der Auslenkung"
+    ]
+  },
+    {
+    "id": 5,
+    "name": "Abschirmung durch Gegenstände",
+    "testType": "SingleTagMultipleReads",
+    "preParameters": [
+      "Anzahl Leseversuche",
+      "Orientierung zwischen Tag und Antenne",
+      "Distanz zwischen Tag und Antenne",
+      "Material der Interferenzquelle"
+    ],
+    "postParameters": [
+      "Anzahl der Quellen"
+    ]
+  },
+    {
+    "id": 6,
+    "name": "Interferenz bei mehreren Antennen",
+    "testType": "SingleTagMultipleAntennas",
+    "preParameters": [
+      "Anzahl Leseversuche",
+      "Anzahl Antennen",
+      "Orientierung zwischen Tag und Antenne",
+      "Distanz zwischen Tag und Antennes"
+    ],
+    "postParameters": [
+      "Distanz zwischen Antennen",
+      "Orientierung zwischen Antennen"
+    ]
+  },
+    {
+    "id": 7,
+    "name": "Auslesung bewegende Box",
+    "testType": "MultipleTagsSingleRead",
+    "preParameters": [
+      "Anzahl Tags",
+      "Orientierung zwischen Tags und Antenne"
+    ],
+    "postParameters": [
+      "Geschwindigkeit der Box"
+    ]
+  },
+    {
+    "id": 8,
+    "name": "Störung durch WLAN",
+    "testType": "MultipleTagsSingleRead",
+    "preParameters": [
+      "Distanz zwischen Tags und Antenne",
+      "Orientierung zwischen Tags und Antenne",
+      "Material der Interferenzquelle"
+    ],
+    "postParameters": [
+      "Anzahl Tags"
+    ]
+  },
+    {
+    "id": 9,
+    "name": "Störung durch Smartphone",
+    "testType": "MultipleTagsSingleRead",
+    "preParameters": [
+      "Distanz zwischen Tags und Antenne",
+      "Orientierung zwischen Tags und Antenne",
+      "Material der Interferenzquelle"
+    ],
+    "postParameters": [
+      "Anzahl Tags"
+    ]
+  },
+    {
+    "id": 10,
+    "name": "Störung durch Kreditkarte",
+    "testType": "MultipleTagsSingleRead",
+    "preParameters": [
+      "Distanz zwischen Tags und Antenne",
+      "Orientierung zwischen Tags und Antenne",
+      "Material der Interferenzquelle"
+    ],
+    "postParameters": [
+      "Anzahl Tags"
+    ]
+  },
+    {
+    "id": 11,
+    "name": "Störung durch Stromquellen",
+    "testType": "MultipleTagsSingleRead",
+    "preParameters": [
+      "Distanz zwischen Tags und Antenne",
+      "Orientierung zwischen Tags und Antenne",
+      "Material der Interferenzquelle"
+    ],
+    "postParameters": [
+      "Anzahl Tags"
+    ]
+  },
+    {
+    "id": 12,
+    "name": "Auslesen von gestapelten Tags",
+    "testType": "MultipleTagsSingleRead",
+    "preParameters": [
+      "Orientierung zwischen Tags und Antenne",
+      "Distanz zwischen Tags und Antenne"
+    ],
+    "postParameters": [
+      "Anzahl Tags"
     ]
   }
 ]

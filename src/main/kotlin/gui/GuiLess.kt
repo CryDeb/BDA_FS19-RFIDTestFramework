@@ -20,7 +20,7 @@ class GuiLess(private val commandLineReader: ScannerAbstraction) : Gui {
         observers.remove(guiObserver)
     }
 
-    override fun getUserInput(question: String) {
+    override fun askUserForInput(question: String) {
         print("$question: ")
         val userInput = commandLineReader.next()
         observers.iterator().forEach { guiObserver -> guiObserver.handleUserInput(userInput) }

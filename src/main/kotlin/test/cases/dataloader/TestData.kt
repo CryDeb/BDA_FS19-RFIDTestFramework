@@ -31,7 +31,7 @@ class TestData(
     }
 
     override fun toString(): String {
-        return "ID: %d, Name: %s, PreParams: %s, PostParams: %s, TestType: %s"
+        return "ID: %d\nName: %s\nPreParams: %s\nPostParams: %s\nTestType: %s"
             .format(id, name, preParameters.toString(), postParameters.toString(), testType)
     }
 }

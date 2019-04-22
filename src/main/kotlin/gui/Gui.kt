@@ -5,5 +5,5 @@ interface Gui {
     fun displayMultiple(messages: List<String>)
     fun subscribe(guiObserver: GuiObserver)
     fun unsubscribe(guiObserver: GuiObserver)
-    fun getUserInput(question: String)
+    fun askUserForInput(question: String)
 }

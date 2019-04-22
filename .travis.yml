@@ -2,7 +2,10 @@ sudo: false
 
 language: java
 
-jdk: openjdk12
+addons:
+    apt:
+        packages:
+            - openjdk-8-jdk:i386
 
 before_deploy:
     - ./gradlew clean

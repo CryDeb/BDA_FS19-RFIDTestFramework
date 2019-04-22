@@ -5,7 +5,7 @@ import kotlin.random.Random
 class CommunicationDriverRandomSimulator(private val random: Random) : CommunicationDriver {
     override fun getAllRfids(): List<TagInformation> {
         val mutableList: MutableList<TagInformation> = mutableListOf()
-        for (i in 0..random.nextInt()) {
+        for (i in 0..random.nextInt(0, 255)) {
             mutableList.add(TagInformation(i))
         }
         return mutableList

@@ -37,10 +37,10 @@ internal class GuiLessTest {
 
         // Act
         guiLess.subscribe(guiObserver)
-        guiLess.getUserInput(question)
+        guiLess.askUserForInput(question)
         guiLess.unsubscribe(guiObserver)
         scannerStub.returnValueForNext = "No"
-        guiLess.getUserInput(question)
+        guiLess.askUserForInput(question)
 
         // Verify
         assertEquals(answer, guiObserver.userMessages.last())
@@ -55,7 +55,7 @@ internal class GuiLessTest {
         val guiLess = GuiLess(scannerStub)
         guiLess.subscribe(guiObserver)
 
-        guiLess.getUserInput(question)
+        guiLess.askUserForInput(question)
         assertThat(resultStream.toString(), containsString(question))
         assertEquals(answer,guiObserver.userMessages.last())
     }

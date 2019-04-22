@@ -2,8 +2,7 @@ package rfid.communication
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import org.mockito.Mockito.*
 import kotlin.random.Random
 
 internal class CommunicationDriverRandomSimulatorTest {
@@ -18,6 +17,7 @@ internal class CommunicationDriverRandomSimulatorTest {
     private fun getMockedRandomWithNextIntValue(nextRandomIntValue: Int): Random {
         val random: Random = mock(Random::class.java)
         `when`(random.nextInt()).thenReturn(nextRandomIntValue)
+        `when`(random.nextInt(any(Int::class.java), any(Int::class.java))).thenReturn(nextRandomIntValue)
         return random
     }
 
