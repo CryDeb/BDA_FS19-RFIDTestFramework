@@ -1,11 +1,12 @@
 package rfid.communication
 
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import rfid.communicationid.TagInformation
 import kotlin.test.assertTrue
 
-internal class HyientechDeviceCommunicationDriverTest {
-
+@Disabled
+internal class IntHyientechDeviceCommunicationDriverTest {
     @Test
     fun initialize() {
         var hyientechDriver = HyientechDeviceCommunicationDriver("Basic")

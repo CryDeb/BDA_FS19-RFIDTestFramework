@@ -1,5 +1,6 @@
 package util
 
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.io.File
 import kotlin.test.assertEquals
@@ -8,6 +9,7 @@ import kotlin.test.assertTrue
 
 class IntWriteableFileImplTest {
 
+    @Disabled
     @Test
     fun writeToFile() {
         val myFile = File("./Test.txt")
