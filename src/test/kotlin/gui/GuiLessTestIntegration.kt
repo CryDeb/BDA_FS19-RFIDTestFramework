@@ -1,7 +1,9 @@
 package gui
 
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.*
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -37,8 +39,7 @@ class GuiLessTestIntegration {
         guiLess.displayMultiple(messages)
         messages.forEach { message ->
             val result = resultStream.toString()
-            val containsMessage = CoreMatchers.containsString(message)
-            MatcherAssert.assertThat(result, containsMessage)
+            assertThat(result,  containsString(message))
         }
     }
 
@@ -48,8 +49,7 @@ class GuiLessTestIntegration {
         val message = "This is a test"
         guiLess.display(message)
         val result = resultStream.toString()
-        val containsMessage = CoreMatchers.containsString(message)
-        MatcherAssert.assertThat(result, containsMessage)
+        assertThat(result, containsString(message))
     }
 
 }
