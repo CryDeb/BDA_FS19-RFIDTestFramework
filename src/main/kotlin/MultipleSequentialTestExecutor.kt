@@ -99,6 +99,7 @@ class MultipleSequentialTestExecutor(
             guiLess.display(testHeader)
 
             if (changeParam) {
+                testParameters.clear()
                 preParameterListOfTestRun.clear()
 
                 for (preParameter in testData.preParameters.iterator()) {
@@ -118,7 +119,7 @@ class MultipleSequentialTestExecutor(
                         val amountOfReads =
                             preParameterListOfTestRun[testData.preParameters.indexOf("Anzahl Leseversuche")].toInt()
                         testRunner.amountOfReads = amountOfReads
-                    } catch (exception: NumberFormatException){
+                    } catch (exception: NumberFormatException) {
                         guiLess.display("Anzahl Leseversuche sollte eine Ganzzahl sein, defaulting zu 10")
                     }
                 }
@@ -126,7 +127,6 @@ class MultipleSequentialTestExecutor(
             }
 
             testRunner.run(testParameters)
-            testParameters.clear()
             val testResults = testRunner.testResults
 
             guiLess.display("\nResults:\n$testResults")
