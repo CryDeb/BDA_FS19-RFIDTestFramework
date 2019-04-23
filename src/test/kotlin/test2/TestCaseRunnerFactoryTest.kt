@@ -9,6 +9,7 @@ import test.cases.TestCaseRunnerFactory
 import test.cases.dataloader.TestType
 import test.cases.runner.MultipleTagsSingleRead
 import test.cases.runner.SingleTagMultipleAntennas
+import test.cases.runner.TestRunner
 import kotlin.random.Random
 
 internal class TestCaseRunnerFactoryTest {
@@ -17,14 +18,14 @@ internal class TestCaseRunnerFactoryTest {
     @Test
     fun getRunnerByTypeSingleTagMultipleAntennas() {
         val testee = TestCaseRunnerFactory(communicationDriver)
-        val runnable: Runnable = testee.getRunnerByType(TestType.SingleTagMultipleAntennas)
+        val runnable: TestRunner = testee.getRunnerByType(TestType.SingleTagMultipleAntennas)
         assertThat(runnable, CoreMatchers.instanceOf(SingleTagMultipleAntennas::class.java))
     }
 
     @Test
     fun getRunnerByTypeMultipleTagsSingleRead() {
         val testee = TestCaseRunnerFactory(communicationDriver)
-        val runnable: Runnable = testee.getRunnerByType(TestType.MultipleTagsSingleRead)
+        val runnable: TestRunner = testee.getRunnerByType(TestType.MultipleTagsSingleRead)
         assertThat(runnable, CoreMatchers.instanceOf(MultipleTagsSingleRead::class.java))
     }
 }

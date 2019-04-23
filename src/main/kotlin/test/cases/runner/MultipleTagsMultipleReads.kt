@@ -1,11 +1,11 @@
 package test.cases.runner
 
 import rfid.communication.CommunicationDriver
-import rfid.communication.TagInformation
+import rfid.communicationid.TagInformation
 import kotlin.system.measureTimeMillis
 
 class MultipleTagsMultipleReads(communicationDriver: CommunicationDriver) : TestRunner(communicationDriver) {
-    override fun run() {
+    override fun run(parameters: Map<TestRunnerKeys, String>) {
         testResults = ""
         for (i in 1..amountOfReads) {
             val tagsInVicinity = mutableListOf<TagInformation>()

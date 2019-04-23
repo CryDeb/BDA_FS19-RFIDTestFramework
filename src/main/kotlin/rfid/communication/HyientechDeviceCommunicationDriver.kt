@@ -1,18 +1,17 @@
 package rfid.communication
 
-import com.sun.jna.Library
-import com.sun.jna.Native
-import com.sun.jna.Platform
+import com.sun.jna.*
 import com.sun.jna.ptr.ByteByReference
 import com.sun.jna.ptr.IntByReference
+import rfid.communicationid.TagInformation
 import util.UnsupportedPlattformException
 
 class HyientechDeviceCommunicationDriver(dllFile: String) : CommunicationDriver {
     private val hyientechDriver: HyientechDriver
-    private val baudRatePointer = ByteByReference(0)
+    private val baudRatePointer = 0.toByte()
     private val frmHandlePointer = IntByReference(0)
     private val deviceAddressPointer = ByteByReference(Byte.MIN_VALUE)
-    private val devicePortPointer = IntByReference(0)
+    private val devicePortPointer = IntByReference()
 
 
     init {
@@ -22,7 +21,8 @@ class HyientechDeviceCommunicationDriver(dllFile: String) : CommunicationDriver 
         hyientechDriver = Native.load(dllFile, HyientechDriver::class.java)
     }
 
-    fun initialize(comPort: Int) {
+    fun initialize() {
+
         if (isError(
                 hyientechDriver.AutoOpenComPort(
                     devicePortPointer,
@@ -34,6 +34,9 @@ class HyientechDeviceCommunicationDriver(dllFile: String) : CommunicationDriver 
         ) {
             throw DeviceCommunicationException("Could not establish connection")
         }
+        if (isError(hyientechDriver.OpenRf(deviceAddressPointer, frmHandlePointer.value))) {
+            throw DeviceCommunicationException("Could not power on the inductive field")
+        }
     }
 
     private fun isError(errorCode: Int): Boolean {
@@ -41,22 +44,84 @@ class HyientechDeviceCommunicationDriver(dllFile: String) : CommunicationDriver 
     }
 
     override fun getAllRfids(): List<TagInformation> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var tags = ByteByReference()
+        return createInventory(tags)
     }
 
     override fun getAllRfids(timeout: Int): List<TagInformation> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var inventoryScanTime = ByteByReference(timeout.toByte())
+        System.out.println("Time: $timeout is " + timeout.div(10) + "sec")
+        hyientechDriver.WriteInventoryScanTime(this.deviceAddressPointer, inventoryScanTime, frmHandlePointer.value)
+        return getAllRfids()
     }
 
-    override fun isSingleTagReachable(id: TagInformation): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun isSingleTagReachable(tagInformation: TagInformation): Boolean {
+        val uid = ByteByReference()
+        uid.pointer = Memory(10.toLong())
+        for (i in 0..tagInformation.uid.size - 1) {
+            uid.pointer.setByte(i.toLong(), tagInformation.uid.reversed()[i])
+        }
+        val uidMemory = ByteByReference()
+        uidMemory.pointer = Memory(2)
+        uidMemory.pointer.setByte(0, 0)
+        uidMemory.pointer.setByte(1, 0)
+        return hyientechDriver.GetSystemInformation(
+            deviceAddressPointer, ByteByReference(0), uid, ByteByReference(), uid, ByteByReference(0),
+            ByteByReference(0), uidMemory, ByteByReference(0), ByteByReference(0), frmHandlePointer.value
+        ) == 0
     }
 
-    override fun switchToAntenna(antennaPosition: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun switchToAntenna(antennaPosition: AntennaPositions) {
+        val antennaStatus = ByteByReference((antennaPosition.antennaPosition).toByte())
+        hyientechDriver.SetActiveANT(deviceAddressPointer, antennaStatus, frmHandlePointer.value)
+    }
+
+    private fun createInventory(tags: ByteByReference): ArrayList<TagInformation> {
+        var tagsInformation = ArrayList<TagInformation>()
+        var nmrTags = ByteByReference()
+        var tagsPointer: Pointer = Memory(255 * 9)
+        tags.pointer = tagsPointer
+        var value = hyientechDriver.Inventory(
+            deviceAddressPointer,
+            CINTINUOS_WITHOUT_AFI,
+            GARBAGE_BYTE_REFERENCE,
+            tags,
+            nmrTags,
+            frmHandlePointer.value
+        )
+        if (value == 0 || value == 14 || value == 11) {
+            for (i: Int in 1..nmrTags.value) {
+                var tagUid = ArrayList<Byte>()
+                for (j: Int in 0..7) {
+                    tagUid.add(tagsPointer.getByte((((i - 1) * 9 + 8 - j).toLong())))
+                }
+                tagsInformation.add(TagInformation(tagUid))
+            }
+        }
+        return tagsInformation
     }
 
     private interface HyientechDriver : Library {
+
+        fun Select(
+            ComAdr: ByteByReference, UID: ByteByReference,
+            ErrorCode: ByteByReference, FrmHandle: Int
+        ): Int
+
+        fun GetSystemInformation(
+            ComAdr: ByteByReference,
+            State: ByteByReference,
+            UIDI: ByteByReference,
+            InformationFlag: ByteByReference,
+            UIDO: ByteByReference,
+            DSFID: ByteByReference,
+            AFI: ByteByReference,
+            MemorySize: ByteByReference,
+            ICReference: ByteByReference,
+            ErrorCode: ByteByReference,
+            FrmHandle: Int
+        ): Int
+
         fun OpenComPort(Port: Int, ComAdr: ByteByReference, Baud: ByteByReference, FrmHandle: IntByReference): Int
         fun CloseComPort(): Int
         fun CloseSpecComPort(FrmHandle: Int): Int
@@ -97,13 +162,73 @@ class HyientechDeviceCommunicationDriver(dllFile: String) : CommunicationDriver 
         fun AutoOpenComPort(
             Port: IntByReference,
             ComAdr: ByteByReference,
-            Baud: ByteByReference,
+            Baud: Byte,
             FrmHandle: IntByReference
         ): Int
+
+
+        fun Inventory(
+            ComAdr: ByteByReference,
+            State: ByteByReference,
+            AFI: ByteByReference,
+            DSFIDAndUID: ByteByReference,
+            CardNum: ByteByReference,
+            FrmHandle: Int
+        ): Int
+
+        fun StayQuiet(ComAdr: ByteByReference, UID: ByteByReference, ErrorCode: ByteByReference, FrmHandle: Int): Int
+        fun ReadSingleBlock(
+            ComAdr: ByteByReference,
+            State: ByteByReference,
+            UID: ByteByReference,
+            BlockNum: Byte,
+            BlockSecStatus: ByteByReference,
+            Data: ByteByReference,
+            ErrorCode: ByteByReference,
+            FrmHandle: Int
+        ): Int
+
+        fun WriteSingleBlock(
+            ComAdr: ByteByReference,
+            State: ByteByReference,
+            UID: ByteByReference,
+            BlockNum: Byte,
+            Data: ByteByReference,
+            ErrorCode: ByteByReference,
+            FrmHandle: Int
+        ): Int
+
+        fun LockBlock(
+            ComAdr: ByteByReference,
+            State: ByteByReference,
+            UID: ByteByReference,
+            BlockNum: Byte,
+            ErrorCode: ByteByReference,
+            FrmHandle: Int
+        ): Int
+
+        fun ReadMultipleBlock(
+            ComAdr: ByteByReference,
+            State: ByteByReference,
+            UID: ByteByReference,
+            BlockNum: Byte,
+            BlockCount: Byte,
+            BlockSecStatus: ByteByReference,
+            Data: ByteByReference,
+            ErrorCode: ByteByReference,
+            intFrmHandle: Int
+        ): Int
+
     }
 
     class DeviceCommunicationException(message: String) :
         Throwable("Error during the Communication with the Hyientech device: %s".format(message)) {
         constructor() : this("")
+    }
+
+    companion object {
+        private val WITHOUT_AFI = ByteByReference(0)
+        private val CINTINUOS_WITHOUT_AFI = ByteByReference(6)
+        private val GARBAGE_BYTE_REFERENCE = ByteByReference(0)
     }
 }
