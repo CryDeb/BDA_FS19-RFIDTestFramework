@@ -19,7 +19,7 @@ class MultipleSequentialTestExecutor(
     private val testCaseRunnerFactory: TestCaseRunnerFactory
 ) : GuiObserver {
     private var testDataList: ArrayList<TestData> = dataLoader.loadMultipleTestData()
-    private var lastReport: Report? = null
+    private var lastReports = ArrayList<Report>()
     private var lastTest: TestData? = null
 
     private var testRunning: Boolean = false
@@ -84,6 +84,7 @@ class MultipleSequentialTestExecutor(
         lastTest = testData
         userHasSaved = false
         changeParam = true
+        lastReports.clear()
         var testHeader: String
         val preParameterListOfTestRun: MutableList<String> = mutableListOf()
         val postParameterListOfTestRun: MutableList<String> = mutableListOf()
@@ -102,7 +103,7 @@ class MultipleSequentialTestExecutor(
                 testParameters.clear()
                 preParameterListOfTestRun.clear()
 
-                for (preParameter in testData.preParameters.iterator()) {
+                for (preParameter: String in testData.preParameters) {
                     guiLess.askUserForInput(preParameter)
                     preParameterListOfTestRun.add(lastUserInputForParam)
                 }
@@ -139,7 +140,7 @@ class MultipleSequentialTestExecutor(
             }
             changeParam = false
 
-            lastReport = generateReport(testData, preParameterListOfTestRun, postParameterListOfTestRun, testResults)
+            lastReports.add(generateReport(testData, preParameterListOfTestRun.toMutableList(), postParameterListOfTestRun.toMutableList(), testResults))
 
             guiLess.askUserForInput(
                 "(s)ave report\n" +
@@ -151,6 +152,7 @@ class MultipleSequentialTestExecutor(
             )
 
             if (userHasSaved) {
+                userHasSaved = false
                 guiLess.askUserForInput(
                     "(c)hange Pretest parameters\n" +
                             "(r)erun with current config\n" +
@@ -176,7 +178,7 @@ class MultipleSequentialTestExecutor(
     }
 
     private fun saveReportWithAsking() {
-        if (lastReport != null && lastTest != null) {
+        if (!lastReports.isEmpty() && lastTest != null) {
             saving = true
             val dateTime = LocalDateTime.now()
             val fileNameDateTime =
@@ -191,7 +193,7 @@ class MultipleSequentialTestExecutor(
 
     private fun saveReportWithoutAsking() {
         reportPersistor.changeFilename(filename)
-        if (lastReport != null) reportPersistor.persistReport(lastReport!!)
+        if (lastReports != null) reportPersistor.persistReports(lastReports!!)
         saving = false
         userHasSaved = true
     }

@@ -44,15 +44,14 @@ class HyientechDeviceCommunicationDriver(dllFile: String) : CommunicationDriver 
     }
 
     override fun getAllRfids(): List<TagInformation> {
-        var tags = ByteByReference()
-        return createInventory(tags)
+        return getAllRfids(30)
     }
 
     override fun getAllRfids(timeout: Int): List<TagInformation> {
         var inventoryScanTime = ByteByReference(timeout.toByte())
-        System.out.println("Time: $timeout is " + timeout.div(10) + "sec")
         hyientechDriver.WriteInventoryScanTime(this.deviceAddressPointer, inventoryScanTime, frmHandlePointer.value)
-        return getAllRfids()
+        var tags = ByteByReference()
+        return createInventory(tags)
     }
 
     override fun isSingleTagReachable(tagInformation: TagInformation): Boolean {
@@ -76,14 +75,16 @@ class HyientechDeviceCommunicationDriver(dllFile: String) : CommunicationDriver 
         hyientechDriver.SetActiveANT(deviceAddressPointer, antennaStatus, frmHandlePointer.value)
     }
 
-    private fun createInventory(tags: ByteByReference): ArrayList<TagInformation> {
+    private fun createInventory(tags: ByteByReference, resetingInvetory: Boolean = true): ArrayList<TagInformation> {
+        var tagsInformationMap = HashSet<TagInformation>()
         var tagsInformation = ArrayList<TagInformation>()
         var nmrTags = ByteByReference()
         var tagsPointer: Pointer = Memory(255 * 9)
         tags.pointer = tagsPointer
+
         var value = hyientechDriver.Inventory(
             deviceAddressPointer,
-            CINTINUOS_WITHOUT_AFI,
+            if(resetingInvetory) CINTINUOS_WITHOUT_AFI else WITHOUT_AFI,
             GARBAGE_BYTE_REFERENCE,
             tags,
             nmrTags,
@@ -95,10 +96,12 @@ class HyientechDeviceCommunicationDriver(dllFile: String) : CommunicationDriver 
                 for (j: Int in 0..7) {
                     tagUid.add(tagsPointer.getByte((((i - 1) * 9 + 8 - j).toLong())))
                 }
+                tagsInformationMap.add(TagInformation(tagUid))
                 tagsInformation.add(TagInformation(tagUid))
             }
         }
-        return tagsInformation
+
+        return ArrayList(tagsInformationMap)
     }
 
     private interface HyientechDriver : Library {

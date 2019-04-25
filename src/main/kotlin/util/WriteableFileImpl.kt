@@ -15,6 +15,6 @@ class WriteableFileImpl(var file: File) : WriteableFile {
     }
 
     override fun writeToFile(text: String) {
-        file.writeText(text)
+        file.appendText(text)
     }
 }

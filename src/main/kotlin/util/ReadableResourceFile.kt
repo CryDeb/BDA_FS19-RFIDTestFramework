@@ -7,8 +7,7 @@ class ReadableResourceFile(resourceName: String) : ReadableFile {
     private var file: File
 
     init {
-        val path: String = ReadableResourceFile::class.java.getResource("../$resourceName").path
-        System.out.println(path)
+        val path: String =  ReadableResourceFile::class.java.getResource("../$resourceName").path
         file = File(path)
         if (!file.exists() && !file.canRead()) throw FileNotFoundException()
     }

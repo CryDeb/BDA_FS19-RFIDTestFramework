@@ -5,10 +5,10 @@
     "testType": "SingleTagMultipleReads",
     "preParameters": [
       "Anzahl Leseversuche",
-      "Orientierung zwischen Tag und Antenne"
+      "Orientierung zwischen Tag und Antenne (°)"
     ],
     "postParameters": [
-      "Distanz zwischen Tag und Antenne"
+      "Distanz zwischen Tag und Antenne (cm)"
     ]
   },
   {
@@ -17,142 +17,139 @@
     "testType": "MultipleTagsMultipleReads",
     "preParameters": [
       "Anzahl Leseversuche",
-      "Distanz zwischen Tags und Antenne",
-      "Orientierung zwischen Tag und Antenne"
+      "Distanz zwischen Tags und Antenne (cm)",
+      "Orientierung zwischen Tag und Antenne (°)"
     ],
     "postParameters": [
       "Anzahl Tags"
     ]
   },
-    {
+  {
     "id": 3,
     "name": "Seitliche Reichweite",
     "testType": "SingleTagMultipleReads",
     "preParameters": [
       "Anzahl Leseversuche",
-      "Orientierung zwischen Tag und Antenne"
+      "Orientierung zwischen Tag und Antenne (°)"
     ],
     "postParameters": [
-      "Horizontale Distanz zwischen Tag und Antenne",
-      "Laterale Distanz zwischen Tag und Antenne"
+      "Horizontale Distanz zwischen Tag und Antenne (cm)",
+      "Laterale Distanz zwischen Tag und Antenne (cm)"
     ]
   },
-    {
+  {
     "id": 4,
     "name": "Ausrichtung des Tags",
     "testType": "SingleTagMultipleReads",
     "preParameters": [
       "Anzahl Leseversuche",
       "Geänderte Achse",
-      "Distanz"
+      "Distanz (cm)"
     ],
     "postParameters": [
       "Grad der Auslenkung"
     ]
   },
-    {
+  {
     "id": 5,
     "name": "Abschirmung durch Gegenstände",
     "testType": "SingleTagMultipleReads",
     "preParameters": [
       "Anzahl Leseversuche",
-      "Orientierung zwischen Tag und Antenne",
-      "Distanz zwischen Tag und Antenne",
+      "Orientierung zwischen Tag und Antenne (°)",
+      "Distanz zwischen Tag und Antenne (cm)",
       "Material der Interferenzquelle"
     ],
     "postParameters": [
       "Anzahl der Quellen"
     ]
   },
-    {
+  {
     "id": 6,
     "name": "Interferenz bei mehreren Antennen",
     "testType": "SingleTagMultipleAntennas",
     "preParameters": [
       "Anzahl Leseversuche",
       "Anzahl Antennen",
-      "Orientierung zwischen Tag und Antenne",
-      "Distanz zwischen Tag und Antennes"
+      "Orientierung zwischen Tag und Antenne (°)",
+      "Distanz zwischen Tag und Antenne (cm)"
     ],
     "postParameters": [
-      "Distanz zwischen Antennen",
-      "Orientierung zwischen Antennen"
+      "Distanz zwischen Antennen (cm)",
+      "Orientierung zwischen Antennen (°)"
     ]
   },
-    {
+  {
     "id": 7,
     "name": "Auslesung bewegende Box",
     "testType": "MultipleTagsSingleRead",
     "preParameters": [
       "Anzahl Tags",
-      "Orientierung zwischen Tags und Antenne"
+      "Orientierung zwischen Tags und Antenne (°)"
     ],
     "postParameters": [
-      "Geschwindigkeit der Box"
+      "Geschwindigkeit der Box (m/s)"
     ]
   },
-    {
+  {
     "id": 8,
     "name": "Störung durch WLAN",
-    "testType": "MultipleTagsSingleRead",
+    "testType": "MultipleTagsMultipleReads",
     "preParameters": [
-      "Distanz zwischen Tags und Antenne",
-      "Orientierung zwischen Tags und Antenne",
-      "Material der Interferenzquelle"
+      "Distanz zwischen Tags und Antenne (cm)",
+      "Orientierung zwischen Tags und Antenne (°)"
     ],
     "postParameters": [
       "Anzahl Tags"
     ]
   },
-    {
+  {
     "id": 9,
     "name": "Störung durch Smartphone",
-    "testType": "MultipleTagsSingleRead",
+    "testType": "MultipleTagsMultipleReads",
     "preParameters": [
-      "Distanz zwischen Tags und Antenne",
-      "Orientierung zwischen Tags und Antenne",
-      "Material der Interferenzquelle"
+      "Distanz zwischen Tags und Antenne (cm)",
+      "Orientierung zwischen Tags und Antenne (°)"
     ],
     "postParameters": [
       "Anzahl Tags"
     ]
   },
-    {
+  {
     "id": 10,
     "name": "Störung durch Kreditkarte",
-    "testType": "MultipleTagsSingleRead",
+    "testType": "MultipleTagsMultipleReads",
     "preParameters": [
-      "Distanz zwischen Tags und Antenne",
-      "Orientierung zwischen Tags und Antenne",
-      "Material der Interferenzquelle"
+      "Distanz zwischen Tags und Antenne (cm)",
+      "Orientierung zwischen Tags und Antenne (°)"
     ],
     "postParameters": [
       "Anzahl Tags"
     ]
   },
-    {
+  {
     "id": 11,
     "name": "Störung durch Stromquellen",
-    "testType": "MultipleTagsSingleRead",
+    "testType": "MultipleTagsMultipleReads",
     "preParameters": [
-      "Distanz zwischen Tags und Antenne",
-      "Orientierung zwischen Tags und Antenne",
-      "Material der Interferenzquelle"
+      "Distanz zwischen Tags und Antenne (cm)",
+      "Orientierung zwischen Tags und Antenne (°)"
     ],
     "postParameters": [
       "Anzahl Tags"
     ]
   },
-    {
+  {
     "id": 12,
     "name": "Auslesen von gestapelten Tags",
-    "testType": "MultipleTagsSingleRead",
+    "testType": "MultipleTagsMultipleReads",
     "preParameters": [
-      "Orientierung zwischen Tags und Antenne",
-      "Distanz zwischen Tags und Antenne"
+      "Orientierung zwischen Tags und Antenne (°)",
+      "Distanz zwischen Tags und Antenne (cm)"
     ],
     "postParameters": [
-      "Anzahl Tags"
+      "Anzahl Tags",
+      "Distanz zwischen Tags (cm)"
     ]
   }
 ]

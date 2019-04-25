@@ -5,6 +5,10 @@ import util.WriteableFile
 import java.io.File
 
 class ReportTxtPersistor(var file: WriteableFile) : ReportPersistor {
+    override fun persistReports(reports: List<Report>) {
+        reports.forEach(this::persistReport)
+    }
+
     override fun changeFilename(filename: String) {
         val filenameIsValid = FilenameValidator().isFilenameValid(filename)
         if (filenameIsValid) {
