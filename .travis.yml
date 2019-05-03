@@ -3,16 +3,13 @@ sudo: false
 language: java
 
 addons:
-    sonarcloud:
-        organization: "crydeb-github" # the key of the org you chose at step #3
-        token:
-            secure: $SONAR_AUTH # encrypted value of your token
     apt:
         packages:
             - openjdk-8-jdk:i386
 
 before_deploy:
     - ./gradlew clean
+    ./gradlew sonarqube -Dsonar.projectKey=CryDeb_BDA_FS19-RFIDTestFramework -Dsonar.organization=crydeb-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_AUTH
     - sonar-scanner -Dsonar.sources=. -Dsonar.java.binaries=.
     - ./gradlew test
     - ./gradlew jar
