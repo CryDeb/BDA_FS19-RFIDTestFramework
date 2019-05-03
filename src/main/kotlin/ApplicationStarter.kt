@@ -7,7 +7,6 @@ import test.cases.dataloader.JsonDataLoader
 import util.ReadableResourceFile
 import util.WriteableFileImpl
 import java.io.File
-import kotlin.random.Random
 
 fun main() {
     val scannerAbstractionImpl = ScannerAbstractionImpl()
@@ -16,7 +15,6 @@ fun main() {
     val dataLoader = JsonDataLoader(jsonReadableFile)
     val txtFile = File("./Report.txt")
     val reportPersistor = ReportTxtPersistor(WriteableFileImpl(txtFile))
-    val random = Random(1337)
     val communicationDriver = HyientechDeviceCommunicationDriver("Basic")
     communicationDriver.initialize()
     val testCaseRunnerFactory = TestCaseRunnerFactory(communicationDriver)

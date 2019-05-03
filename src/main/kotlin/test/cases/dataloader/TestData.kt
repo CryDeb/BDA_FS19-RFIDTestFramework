@@ -14,10 +14,8 @@ class TestData(
     override fun equals(other: Any?): Boolean {
         if (super.equals(other))
             return true
-        if (other is TestData) {
-            if (arePropertiesEqual(other)) {
-                return true
-            }
+        if (other is TestData && arePropertiesEqual(other)) {
+            return true
         }
         return false
     }
