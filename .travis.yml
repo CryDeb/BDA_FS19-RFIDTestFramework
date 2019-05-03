@@ -3,6 +3,10 @@ sudo: false
 language: java
 
 addons:
+    sonarcloud:
+        organization: "crydeb-github" # the key of the org you chose at step #3
+        token:
+            secure: $SONAR_AUTH # encrypted value of your token
     apt:
         packages:
             - openjdk-8-jdk:i386
