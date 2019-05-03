@@ -50,7 +50,6 @@ class HyientechDeviceCommunicationDriver(dllFile: String) : CommunicationDriver 
 
     override fun getAllRfids(timeout: Int): List<TagInformation> {
         var inventoryScanTime = ByteByReference(timeout.toByte())
-        System.out.println("Time: $timeout is " + timeout.div(10) + "sec")
         hyientechDriver.WriteInventoryScanTime(this.deviceAddressPointer, inventoryScanTime, frmHandlePointer.value)
         return getAllRfids()
     }

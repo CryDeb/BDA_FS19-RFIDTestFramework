@@ -8,13 +8,6 @@ import kotlin.test.assertTrue
 @Disabled
 internal class IntHyientechDeviceCommunicationDriverTest {
     @Test
-    fun initialize() {
-        var hyientechDriver = HyientechDeviceCommunicationDriver("Basic")
-        hyientechDriver.initialize()
-        hyientechDriver.getAllRfids().forEach { tag -> System.out.println(tag.toString()) }
-    }
-
-    @Test
     fun getAllRfids() {
         var hyientechDriver = HyientechDeviceCommunicationDriver("Basic")
         hyientechDriver.initialize()

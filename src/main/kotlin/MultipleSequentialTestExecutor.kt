@@ -218,7 +218,6 @@ class MultipleSequentialTestExecutor(
             }
         } catch (exception: NumberFormatException) {
             if (tagIdRequested && userMessage.length > 1) {
-                System.out.println(userMessage.length)
                 tagId = TagInformation.getByteListForHexString(userMessage)
                 tagIdRequested = false
             } else if (!saving && !changeParam && !tagIdRequested) {
