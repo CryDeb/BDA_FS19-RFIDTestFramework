@@ -1,11 +1,10 @@
-package test2
+package test.cases
 
 
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.Test
 import rfid.communication.CommunicationDriverRandomSimulator
-import test.cases.TestCaseRunnerFactory
 import test.cases.dataloader.TestType
 import test.cases.runner.MultipleTagsSingleRead
 import test.cases.runner.SingleTagMultipleAntennas
