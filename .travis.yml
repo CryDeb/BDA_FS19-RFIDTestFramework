@@ -13,6 +13,7 @@ addons:
 
 before_deploy:
     - ./gradlew clean
+    - sonar-scanner -Dsonar.sources=. -Dsonar.java.binaries=.
     - ./gradlew test
     - ./gradlew jar
 
